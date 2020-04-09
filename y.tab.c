@@ -237,6 +237,9 @@
 #endif
 int verbose = P_VERBOSE;
 
+//test
+int cnf_counter = 0;
+
 //----Compile with -DP_USERPROC=1 to #include p_user_proc.c. p_user_proc.c 
 //----should #define P_ACT, P_BUILD, P_TOKEN, P_PRINT to different procedures 
 //----from those below, and supply code.
@@ -252,6 +255,9 @@ int verbose = P_VERBOSE;
 extern int yylineno;
 extern int yychar;
 extern char yytext[];
+//Test‚
+extern FILE *yyin;
+
 
 extern int tptp_store_size;
 extern char* tptp_lval[];
@@ -264,12 +270,16 @@ struct pTreeNode {
     pTree children[MAX_CHILDREN+1];
 };
 //-----------------------------------------------------------------------------
-
-int main(int argc, const char* argv[])
-{
-  /* yydebug = 1; */
-  yyparse();
-  return 0;
+int main(int argc, char **argv ){
+    ++argv, --argc;  /* skip over program name */
+    if(argc>0){
+        yyin = fopen(argv[0],"r");
+    }
+    else{
+        yyin = stdin;
+    }
+    yyparse();
+    printf("Total count of cnf formulae: %d\n‚",cnf_counter);
 }
 
 
@@ -2742,7 +2752,9 @@ yyreduce:
 
   case 9:
 #line 242 "SyntaxBNF.y"
-    {(yyval.pval) = P_BUILD("cnf_annotated", P_TOKEN("_LIT_cnf ", (yyvsp[(1) - (10)].ival)), P_TOKEN("LPAREN ", (yyvsp[(2) - (10)].ival)), (yyvsp[(3) - (10)].pval), P_TOKEN("COMMA ", (yyvsp[(4) - (10)].ival)), (yyvsp[(5) - (10)].pval), P_TOKEN("COMMA ", (yyvsp[(6) - (10)].ival)), (yyvsp[(7) - (10)].pval), (yyvsp[(8) - (10)].pval), P_TOKEN("RPAREN ", (yyvsp[(9) - (10)].ival)), P_TOKEN("PERIOD ", (yyvsp[(10) - (10)].ival)));}
+    {(yyval.pval) = P_BUILD("cnf_annotated", P_TOKEN("_LIT_cnf ", (yyvsp[(1) - (10)].ival)), P_TOKEN("LPAREN ", (yyvsp[(2) - (10)].ival)), (yyvsp[(3) - (10)].pval), P_TOKEN("COMMA ", (yyvsp[(4) - (10)].ival)), (yyvsp[(5) - (10)].pval), P_TOKEN("COMMA ", (yyvsp[(6) - (10)].ival)), (yyvsp[(7) - (10)].pval), (yyvsp[(8) - (10)].pval), P_TOKEN("RPAREN ", (yyvsp[(9) - (10)].ival)), P_TOKEN("PERIOD ", (yyvsp[(10) - (10)].ival)));
+        cnf_counter = cnf_counter + 1;
+    }
     break;
 
   case 10:
