@@ -54,3 +54,5 @@ dkms.conf
 parser
 
 create_parser.sh
+
+cnf_test.txt
