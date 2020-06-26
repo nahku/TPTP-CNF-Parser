@@ -56,9 +56,6 @@ dollar_dollar_word    {dollar}{dollar}{lower_word}
 upper_word            {upper_alpha}{alpha_numeric}*
 lower_word            {lower_alpha}{alpha_numeric}*
 vline                 [|]
-star                  [*]
-plus                  [+]
-arrow                 [>]
 real                  ({signed_real}|{unsigned_real})
 signed_real           {sign}{unsigned_real}
 unsigned_real         ({decimal_fraction}|{decimal_exponent})
@@ -91,7 +88,7 @@ lower_alpha           [a-z]
 upper_alpha           [A-Z]
 alpha_numeric         ({lower_alpha}|{upper_alpha}|{numeric}|[_])
 dollar                [$]
-comment               {comment_line}|{comment_block}
+comment               {comment_line} | {comment_block}
 comment_line          [%]{printable_char}*
 comment_block         [/][*]{not_star_slash}[*][*]*[/]
 not_star_slash        ([^*]*[*][*]*[^/*])*[^*]*
@@ -100,56 +97,6 @@ printable_char        .
 %Start B FF SQ1 SQ2 Q1 Q2
 %%
 
-"&" {
-    tptp_prev_tok=AMPERSAND;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AMPERSAND);
-}
-"@@-" {
-    tptp_prev_tok=AT_AT_SIGN_MINUS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_AT_SIGN_MINUS);
-}
-"@@+" {
-    tptp_prev_tok=AT_AT_SIGN_PLUS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_AT_SIGN_PLUS);
-}
-"@" {
-    tptp_prev_tok=AT_SIGN;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_SIGN);
-}
-"@=" {
-    tptp_prev_tok=AT_SIGN_EQUALS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_SIGN_EQUALS);
-}
-"@-" {
-    tptp_prev_tok=AT_SIGN_MINUS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_SIGN_MINUS);
-}
-"@+" {
-    tptp_prev_tok=AT_SIGN_PLUS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(AT_SIGN_PLUS);
-}
-"^" {
-    tptp_prev_tok=CARET;
-    yylval.ival = tptp_update_lval(yytext);
-    return(CARET);
-}
-":" {
-    tptp_prev_tok=COLON;
-    yylval.ival = tptp_update_lval(yytext);
-    return(COLON);
-}
-":=" {
-    tptp_prev_tok=COLON_EQUALS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(COLON_EQUALS);
-}
 "," {
     tptp_prev_tok=COMMA;
     yylval.ival = tptp_update_lval(yytext);
@@ -160,96 +107,26 @@ printable_char        .
     yylval.ival = tptp_update_lval(yytext);
     return(EQUALS);
 }
-"=>" {
-    tptp_prev_tok=EQUALS_GREATER;
-    yylval.ival = tptp_update_lval(yytext);
-    return(EQUALS_GREATER);
-}
-"!" {
-    tptp_prev_tok=EXCLAMATION;
-    yylval.ival = tptp_update_lval(yytext);
-    return(EXCLAMATION);
-}
 "!=" {
     tptp_prev_tok=EXCLAMATION_EQUALS;
     yylval.ival = tptp_update_lval(yytext);
     return(EXCLAMATION_EQUALS);
-}
-"!!" {
-    tptp_prev_tok=EXCLAMATION_EXCLAMATION;
-    yylval.ival = tptp_update_lval(yytext);
-    return(EXCLAMATION_EXCLAMATION);
-}
-"!>" {
-    tptp_prev_tok=EXCLAMATION_GREATER;
-    yylval.ival = tptp_update_lval(yytext);
-    return(EXCLAMATION_GREATER);
-}
-"{" {
-    tptp_prev_tok=LBRACE;
-    yylval.ival = tptp_update_lval(yytext);
-    return(LBRACE);
 }
 "[" {
     tptp_prev_tok=LBRKT;
     yylval.ival = tptp_update_lval(yytext);
     return(LBRKT);
 }
-"<=" {
-    tptp_prev_tok=LESS_EQUALS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(LESS_EQUALS);
-}
-"<=>" {
-    tptp_prev_tok=LESS_EQUALS_GREATER;
-    yylval.ival = tptp_update_lval(yytext);
-    return(LESS_EQUALS_GREATER);
-}
-"<<" {
-    tptp_prev_tok=LESS_LESS;
-    yylval.ival = tptp_update_lval(yytext);
-    return(LESS_LESS);
-}
-"<~>" {
-    tptp_prev_tok=LESS_TILDE_GREATER;
-    yylval.ival = tptp_update_lval(yytext);
-    return(LESS_TILDE_GREATER);
-}
 "(" {
     tptp_prev_tok=LPAREN;
     yylval.ival = tptp_update_lval(yytext);
     return(LPAREN);
-}
-"-->" {
-    tptp_prev_tok=MINUS_MINUS_GREATER;
-    yylval.ival = tptp_update_lval(yytext);
-    return(MINUS_MINUS_GREATER);
 }
 "." {
     BEGIN INITIAL;
     tptp_prev_tok=PERIOD;
     yylval.ival = tptp_update_lval(yytext);
     return(PERIOD);
-}
-"?" {
-    tptp_prev_tok=QUESTION;
-    yylval.ival = tptp_update_lval(yytext);
-    return(QUESTION);
-}
-"??" {
-    tptp_prev_tok=QUESTION_QUESTION;
-    yylval.ival = tptp_update_lval(yytext);
-    return(QUESTION_QUESTION);
-}
-"?*" {
-    tptp_prev_tok=QUESTION_STAR;
-    yylval.ival = tptp_update_lval(yytext);
-    return(QUESTION_STAR);
-}
-"}" {
-    tptp_prev_tok=RBRACE;
-    yylval.ival = tptp_update_lval(yytext);
-    return(RBRACE);
 }
 "]" {
     tptp_prev_tok=RBRKT;
@@ -261,77 +138,21 @@ printable_char        .
     yylval.ival = tptp_update_lval(yytext);
     return(RPAREN);
 }
-"*" {
-    tptp_prev_tok=STAR;
-    yylval.ival = tptp_update_lval(yytext);
-    return(STAR);
-}
 "~" {
     tptp_prev_tok=TILDE;
     yylval.ival = tptp_update_lval(yytext);
     return(TILDE);
-}
-"~&" {
-    tptp_prev_tok=TILDE_AMPERSAND;
-    yylval.ival = tptp_update_lval(yytext);
-    return(TILDE_AMPERSAND);
-}
-"~|" {
-    tptp_prev_tok=TILDE_VLINE;
-    yylval.ival = tptp_update_lval(yytext);
-    return(TILDE_VLINE);
 }
 "|" {
     tptp_prev_tok=VLINE;
     yylval.ival = tptp_update_lval(yytext);
     return(VLINE);
 }
-"$cnf" {
-    tptp_prev_tok=_DLR_cnf;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_cnf);
-}
-"$fof" {
-    tptp_prev_tok=_DLR_fof;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_fof);
-}
-"$fot" {
-    tptp_prev_tok=_DLR_fot;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_fot);
-}
-"$ite" {
-    tptp_prev_tok=_DLR_ite;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_ite);
-}
-"$let" {
-    tptp_prev_tok=_DLR_let;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_let);
-}
-"$tff" {
-    tptp_prev_tok=_DLR_tff;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_tff);
-}
-"$thf" {
-    tptp_prev_tok=_DLR_thf;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_DLR_thf);
-}
 <INITIAL>"cnf" {
     BEGIN B;
     tptp_prev_tok=_LIT_cnf;
     yylval.ival = tptp_update_lval(yytext);
     return(_LIT_cnf);
-}
-<INITIAL>"fof" {
-    BEGIN B;
-    tptp_prev_tok=_LIT_fof;
-    yylval.ival = tptp_update_lval(yytext);
-    return(_LIT_fof);
 }
 <INITIAL>"include" {
     BEGIN B;
@@ -374,21 +195,6 @@ printable_char        .
     tptp_prev_tok=vline;
     yylval.ival = tptp_update_lval(yytext);
     return(vline);
-}
-{star} {
-    tptp_prev_tok=star;
-    yylval.ival = tptp_update_lval(yytext);
-    return(star);
-}
-{plus} {
-    tptp_prev_tok=plus;
-    yylval.ival = tptp_update_lval(yytext);
-    return(plus);
-}
-{arrow} {
-    tptp_prev_tok=arrow;
-    yylval.ival = tptp_update_lval(yytext);
-    return(arrow);
 }
 {real} {
     tptp_prev_tok=real;

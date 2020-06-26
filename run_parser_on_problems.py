@@ -4,9 +4,8 @@ import subprocess
 if __name__ == "__main__":
     error_list = []
     problem_counter = 0
-    with open("filenames_fof.txt", "r") as myfile:
+    with open("filenames_tff.txt", "r") as myfile:
         data = myfile.read().splitlines()
-
         for line in data:
             problem_counter += 1
             line = line[1:]
