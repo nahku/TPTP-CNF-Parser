@@ -16,7 +16,6 @@
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 
@@ -239,6 +238,7 @@ int verbose = P_VERBOSE;
 
 //test
 int cnf_counter = 0;
+int error_flag = 0;
 
 //----Compile with -DP_USERPROC=1 to #include p_user_proc.c. p_user_proc.c 
 //----should #define P_ACT, P_BUILD, P_TOKEN, P_PRINT to different procedures 
@@ -280,12 +280,20 @@ int main(int argc, char **argv ){
     }
     yyparse();
     printf("Total count of cnf formulae: %d\n‚",cnf_counter);
+    
+    if(error_flag == 0){
+        return 0;
+    }
+    else{
+        return -1;
+    }
 }
 
 
 int yyerror( char *s ) { 
 
-    fprintf( stderr, "%s in line %d at item \"%s\".\n", s, yylineno, yytext); 
+    fprintf( stderr, "%s in line %d at item \"%s\".\n", s, yylineno, yytext);
+    error_flag = 1;
     return(0);
 }
 //-----------------------------------------------------------------------------
